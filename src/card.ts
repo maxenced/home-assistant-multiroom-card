@@ -23,6 +23,13 @@ class MultiroomCard extends LitElement {
 
   @property() private _config?: MultiroomConfig;
 
+  public get config(): MultiroomConfig | Object {
+    if (this._config) {
+      return this._config;
+    }
+    return {};
+  }
+
   public setConfig(config: MultiroomConfig): void {
     if (!config || config.show_error) {
       throw new Error("Invalid configuration");
