@@ -46,7 +46,9 @@ class MultiroomCard extends LitElement {
     if (!changedProps.has('_config') || !changedProps.get('_config')) {
       return true;
     }
-    return hasConfigOrEntityChanged(this, changedProps, false);
+    const res : boolean = hasConfigOrEntityChanged(this, changedProps, false);
+    console.log(`shouldUpdate ${res}`);
+    return res;
   }
 
   // Render html for only one entity (source/sink pair)
@@ -100,11 +102,9 @@ class MultiroomCard extends LitElement {
       }
       // format is pa_multiroom|sink|source
       if (this.hass.states[entity].attributes) {
-        console.log(typeof this.hass.states[entity].attributes); // .split('|');
         if (this.hass.states[entity].attributes.friendly_name) {
           const _:string[] = (this.hass.states[entity].attributes.friendly_name as string).split('|');
           if (!(_[1] in entities_per_sink)) {
-            console.log(`entities: ${JSON.stringify(entities_per_sink)}`);
             entities_per_sink[_[1]] = {};
           }
           entities_per_sink[_[1]][_[2]] = entity;
