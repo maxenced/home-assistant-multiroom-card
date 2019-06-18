@@ -42,15 +42,10 @@ class MultiroomCard extends LitElement {
     console.log('Check if some entity changed');
     const oldHass = changedProps.get("hass") as HomeAssistant | undefined;
     if (oldHass && this.config && this.config.entities) {
-      this.config.entities.forEach((entity: string) => {
+      return (this.config.entities.find((entity) => {
         console.log(`Entity ${JSON.stringify(entity)} state is ${this.hass!.states[entity.entity]}, old was ${oldHass.states[entity.entity]}`);
-        if (
-          oldHass.states[entity.entity] !== this.hass!.states[entity.entity]
-        ) {
-          return true;
-        }
-      });
-      return false;
+        return oldHass.states[entity.entity] !== this.hass!.states[entity.entity];
+      }));
     }
     return false;
   }
