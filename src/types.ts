@@ -1,12 +1,12 @@
 import { ActionConfig } from "custom-card-helpers";
 
-// TODO Add your configuration elements here for type-checking
 export interface BoilerplateConfig {
   type: string;
   name?: string;
   show_warning?: boolean;
   show_error?: boolean;
-  entity?: string;
-  tap_aciton?: ActionConfig;
+  entities?: Array;
+  sources?: Object;
+  tap_action?: ActionConfig;
   hold_action?: ActionConfig;
 }

@@ -17,7 +17,8 @@
     "dependencies": {
         "custom-card-helpers": "^1.0.8",
         "home-assistant-js-websocket": "^3.4.0",
-        "lit-element": "^2.0.1"
+        "lit-element": "^2.0.1",
+        "yarn": "^1.16.0"
     },
     "devDependencies": {
         "@babel/core": "^7.4.3",
