@@ -43,7 +43,7 @@ class MultiroomCard extends LitElement {
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (!changedProps._config) {
+    if (!changedProps) {
       return true;
     }
     return hasConfigOrEntityChanged(this, changedProps, false);
