@@ -15,15 +15,15 @@ import {
   hasConfigOrEntityChanged
 } from "custom-card-helpers";
 
-import { BoilerplateConfig } from "./types";
+import { MultiroomConfig } from "./types";
 
 @customElement("pa-multiroom")
-class BoilerplateCard extends LitElement {
+class MultiroomCard extends LitElement {
   @property() public hass?: HomeAssistant;
 
-  @property() private _config?: BoilerplateConfig;
+  @property() private _config?: MultiroomConfig;
 
-  public setConfig(config: BoilerplateConfig): void {
+  public setConfig(config: MultiroomConfig): void {
     if (!config || config.show_error) {
       throw new Error("Invalid configuration");
     }
@@ -156,15 +156,6 @@ class BoilerplateCard extends LitElement {
       </ha-card>
     `;
   }
-
-  //    return html`
-  //      <ha-card
-  //        .header=${this._config.name ? this._config.name : "Boilerplate"}
-  //        @ha-click="${this._handleTap}"
-  //        @ha-hold="${this._handleHold}"
-  //        .longpress="${longPress()}"
-  //      ></ha-card>
-  //    `;
 
   private _handleTap(): void {
     handleClick(this, this.hass!, this._config!, false, false);

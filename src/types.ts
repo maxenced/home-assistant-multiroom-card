@@ -1,6 +1,6 @@
 import { ActionConfig } from "custom-card-helpers";
 
-export interface BoilerplateConfig {
+export interface MultiroomConfig {
   type: string;
   name?: string;
   show_warning?: boolean;
