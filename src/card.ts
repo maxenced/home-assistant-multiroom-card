@@ -21,14 +21,7 @@ import { MultiroomConfig } from "./types";
 class MultiroomCard extends LitElement {
   @property() public hass?: HomeAssistant;
 
-  @property() private _config?: MultiroomConfig;
-
-  public get config(): MultiroomConfig | Object {
-    if (this._config) {
-      return this._config;
-    }
-    return {};
-  }
+  @property() private config?: MultiroomConfig;
 
   public setConfig(config: MultiroomConfig): void {
     if (!config || config.show_error) {
@@ -38,22 +31,33 @@ class MultiroomCard extends LitElement {
       throw new Error("Please define at least one entity");
     }
 
-    this._config = config;
-    this._config.tap_action = config.tap_action || { action: 'toggle' };
+    this.config = config;
+    this.config.tap_action = config.tap_action || { action: 'toggle' };
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (!changedProps.has('_config') || !changedProps.get('_config')) {
+    if (changedProps.has("config")) {
       return true;
     }
-    const res : boolean = hasConfigOrEntityChanged(this, changedProps, false);
-    console.log(`shouldUpdate ${res}`);
-    return res;
+    console.log('Check if some entity changed');
+    const oldHass = changedProps.get("hass") as HomeAssistant | undefined;
+    if (oldHass && this.config && this.config.entities) {
+      this.config.entities.forEach((entity: string) => {
+        console.log(`Entity ${JSON.stringify(entity)} state is ${this.hass!.states[entity.entity]}, old was ${oldHass.states[entity.entity]}`);
+        if (
+          oldHass.states[entity.entity] !== this.hass!.states[entity.entity]
+        ) {
+          return true;
+        }
+      });
+      return false;
+    }
+    return false;
   }
 
   // Render html for only one entity (source/sink pair)
   private renderEntity(entityConf): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this.config || !this.hass) {
       return html``;
     }
     const stateObj = this.hass.states[entityConf];
@@ -87,7 +91,7 @@ class MultiroomCard extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    if (!this._config || !this.hass) {
+    if (!this.config || !this.hass) {
       return html``;
     }
 
@@ -96,7 +100,7 @@ class MultiroomCard extends LitElement {
     // We need all sources to render, store them to avoid parsing entities too often
     const all_sources :string[] = [];
 
-    this._config.entities.forEach((entity: string) => {
+    this.config.entities.forEach((entity: string) => {
       if (!this || !this.hass) {
         return false;
       }
@@ -136,8 +140,8 @@ class MultiroomCard extends LitElement {
 
     const sources : TemplateResult[] = [];
     all_sources.forEach((source: string) => {
-      if ((this._config) && (this._config.sources) && (source in this._config.sources) && ("icon" in this._config.sources[source])) {
-        sources.push(html`<th><ha-icon icon="${this._config.sources[source].icon}" style="${this._config.sources[source].style}"/></th>`);
+      if ((this.config) && (this.config.sources) && (source in this.config.sources) && ("icon" in this.config.sources[source])) {
+        sources.push(html`<th><ha-icon icon="${this.config.sources[source].icon}" style="${this.config.sources[source].style}"/></th>`);
       } else {
         sources.push(html`<th>${source}</th>`);
       }
@@ -168,11 +172,11 @@ class MultiroomCard extends LitElement {
   }
 
   private _handleTap(): void {
-    handleClick(this, this.hass!, this._config!, false, false);
+    handleClick(this, this.hass!, this.config!, false, false);
   }
 
   private _handleHold(): void {
-    handleClick(this, this.hass!, this._config!, true, false);
+    handleClick(this, this.hass!, this.config!, true, false);
   }
 
   static get styles(): CSSResult {
