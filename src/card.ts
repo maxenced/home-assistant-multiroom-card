@@ -167,8 +167,11 @@ class MultiroomCard extends LitElement {
   }
 
   private _toggle(state) : void {
-    let config = (state.currentTarget as any).entityConf;
+    const config = (state.currentTarget as any).entityConf;
     console.log(`Toggle ${config}`);
+    if (!this.hass) {
+      return;
+    }
     this.hass.callService("light", "toggle", {
       entity_id: config
     });
