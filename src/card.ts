@@ -72,7 +72,7 @@ class MultiroomCard extends LitElement {
       <div
         class="entity"
         .entityConf="${entityConf}"
-        @click="${this._handleTap}"
+        @click="${this._toggle}"
       >
         ${html`
               <state-badge
@@ -166,12 +166,12 @@ class MultiroomCard extends LitElement {
     `;
   }
 
-  private _handleTap(): void {
-    handleClick(this, this.hass!, this.config!, false, false);
-  }
-
-  private _handleHold(): void {
-    handleClick(this, this.hass!, this.config!, true, false);
+  private _toggle(state) : void {
+    let config = (state.currentTarget as any).entityConf;
+    console.log(`Toggle ${config}`);
+    this.hass.callService("light", "toggle", {
+      entity_id: config
+    });
   }
 
   static get styles(): CSSResult {
