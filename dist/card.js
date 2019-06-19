@@ -15,15 +15,16 @@ function t(t,e,s,i){var n,r=arguments.length,o=r<3?e:null===i?i=Object.getOwnPro
        <hui-warning-element
          label=${this.hass.localize("ui.panel.lovelace.warning.entity_not_found","entity",t.entity)}
        ></hui-warning-element>
-     `}render(){if(!this.config||!this.hass)return $``;const t={},e=[];this.config.entities.forEach(s=>{if(!this||!this.hass)return!1;if(this.hass.states[s].attributes&&this.hass.states[s].attributes.friendly_name){const i=this.hass.states[s].attributes.friendly_name.split("|");i[1]in t||(t[i[1]]={}),t[i[1]][i[2]]=s,e.includes(i[2])||e.push(i[2])}return!0}),e.sort();const s=[];Object.keys(t).forEach(i=>{const n=[];n.push($`<td class="room">${i}</td>`),e.forEach(e=>{e in t[i]?n.push($`<td class="entity">${this.renderEntity(t[i][e])}</td>`):n.push($`<td></td>`)}),s.push($`<tr>${n}</tr>`)});const i=[];return e.forEach(t=>{this.config&&this.config.sources&&t in this.config.sources&&"icon"in this.config.sources[t]?i.push($`<th><ha-icon icon="${this.config.sources[t].icon}" style="${this.config.sources[t].style}"/></th>`):i.push($`<th>${t}</th>`)}),$`
+     `}render(){if(!this.config||!this.hass)return $``;const t={},e=[];this.config.entities.forEach(s=>{if(!this||!this.hass)return!1;if(this.hass.states[s].attributes&&this.hass.states[s].attributes.friendly_name){const i=this.hass.states[s].attributes.friendly_name.split("|");i[1]in t||(t[i[1]]={}),t[i[1]][i[2]]=s,e.includes(i[2])||e.push(i[2])}return!0}),e.sort();const s=[];Object.keys(t).forEach(i=>{const n=[];n.push($`<td class="room">${i}</td>`),e.forEach(e=>{e in t[i]?n.push($`<td class="entity">${this.renderEntity(t[i][e])}</td>`):n.push($`<td></td>`)}),s.push($`<tr>${n}<td><ha-slider .min=0 .max=100 .step=1 .value=50 pin class=""></ha-slider></td></tr>`)});const i=[];return e.forEach(t=>{this.config&&this.config.sources&&t in this.config.sources&&"icon"in this.config.sources[t]?i.push($`<th><ha-icon icon="${this.config.sources[t].icon}" style="${this.config.sources[t].style}"/></th>`):i.push($`<th>${t}</th>`)}),$`
       <ha-card header="Multiroom">
         ${e.length>0?$`
                 <div class="forecast clear">
     <table>
       <thead>
         <tr>
-          <th></th>
+          <th>Pi&egrave;ces</th>
                   ${i}
+          <th>Volume</th>
         </tr>
            </thead>
                   ${$`<tbody>${s}</tbody>`}

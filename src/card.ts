@@ -130,7 +130,7 @@ class MultiroomCard extends LitElement {
           obj.push(html`<td></td>`);
         }
       });
-      lines.push(html`<tr>${obj}</tr>`);
+      lines.push(html`<tr>${obj}<td><ha-slider .min=0 .max=100 .step=1 .value=50 pin class=""></ha-slider></td></tr>`);
     });
 
     const sources : TemplateResult[] = [];
@@ -151,8 +151,9 @@ class MultiroomCard extends LitElement {
     <table>
       <thead>
         <tr>
-          <th></th>
+          <th>Pi&egrave;ces</th>
                   ${sources}
+          <th>Volume</th>
         </tr>
            </thead>
                   ${html`<tbody>${lines}</tbody>`}
